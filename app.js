@@ -6,12 +6,12 @@ const fs = require('fs');
 const productsRouter = require('./routes/products');
 const articlesRouter = require('./routes/articles');
 
-//-------------------
+//test connection
 const sequelize = require('./utils/database/db');
 
 sequelize.authenticate()
-.then(res => comsole.log('db connection is ok'))
-.catch(err => console.log('error while connecting to database'));
+.then(res => console.log('db connection is ok'))
+.catch(err => console.log('error while connecting to database: ', err));
 //-------------------
 
 const logStream = fs.createWriteStream(path.join(__dirname, 'logs', 'http_access.log'), {flags: 'a'});
