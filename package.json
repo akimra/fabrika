@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./app.js",
+    "debug": "nodemon ./app.js"
   },
   "dependencies": {
     "debug": "~2.6.9",
@@ -11,5 +12,8 @@
     "http-errors": "~1.6.3",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.4"
   }
 }
