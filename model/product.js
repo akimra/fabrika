@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory');
+const sequelize = require('../utils/database/db');
 const Article = require('./article');
 
-const Product = sequelize.define("product", {
+const Product = sequelize.define("Product", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -23,5 +23,7 @@ const Product = sequelize.define("product", {
 });
 
 Product.hasMany(Article);
+
+Product.sync();
 
 module.exports = Product;
