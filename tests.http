@@ -1,0 +1,5 @@
+GET http://localhost:3000/products
+###
+GET http://localhost:3000/articles
+###
+GET http://localhost:3000/articles?filter=true&filter_from=0&filter_to=3&sort_by=title&sort_dir=DESC
