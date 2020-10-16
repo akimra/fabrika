@@ -18,6 +18,4 @@ const Article = sequelize.define("Article", {
   }
 });
 
-Article.sync();
-
 module.exports = Article;

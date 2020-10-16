@@ -24,6 +24,4 @@ const Product = sequelize.define("Product", {
 
 Product.hasMany(Article);
 
-Product.sync();
-
 module.exports = Product;

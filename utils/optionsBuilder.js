@@ -1,4 +1,4 @@
-const { Sequelize } = 'sequelize';
+const { Op } = require('sequelize');
 
 exports.GetFindOptions = (searchParams) => {
   // Формирование объекта опций выборки из бд для sequelize
@@ -17,7 +17,7 @@ exports.GetFindOptions = (searchParams) => {
   let options;
 
   if (filter) {
-    const { gte, lte } = Sequelize.Op;
+    const { gte, lte } = Op;
 
     if (filter_value) {
       options = {
@@ -51,43 +51,6 @@ exports.GetFindOptions = (searchParams) => {
   options.attributes = {
     exclude: "updatedAt"
   };
-
-  return options;
-};
-
-exports.GetFindOptionsForTotal = (searchParams) => {
-  // Формирование объекта опций выборки из бд для sequelize
-  // без учета лимита пагинации
-  // params: 
-  // searchParams: Object - объект тела запроса
-  const {
-    filter,
-    filter_value
-  } = searchParams;
-  const filter_from = searchParams.filter_from || Number.MIN_SAFE_INTEGER;
-  const filter_to = searchParams.filter_to || Number.MAX_SAFE_INTEGER;
-  let options = {};
-
-  if (filter) {
-    const { gte, lte } = Sequelize.Op;
-
-    if (filter_value) {
-      options = {
-        where: {
-          [filter]: filter_value
-        },
-      };
-    } else {
-      options = {
-        where: {
-          [filter]: {
-            [gte]: filter_from,
-            [lte]: filter_to
-          }
-        }
-      };
-    }
-  }
 
   return options;
 };

@@ -1,12 +1,13 @@
 const models = require('../../model');
 const sequelize = require('./db');
 const { Sequelize } = require('sequelize');
-const { GetFindOptionsForTotal } = require('../optionsBuilder');
+const { GetFindOptions } = require('../optionsBuilder');
 
 module.exports = class DbProvider {
   constructor() {
     this.models = models;
     this.sequelize = sequelize;
+    this.sequelize.sync({force: true});
   }
 
   CreateArticle = async (ProductId, title, content) => {
@@ -20,12 +21,12 @@ module.exports = class DbProvider {
       sort_dir: "asc"
     }
     // Перезаписываем дефолтные параметры выборки (при наличии кастомных в запросе)
-    const params = Object.assign(defaultParams, query);
+    const params = Object.assign(defaultOptions, query);
 
-    const options = GetFindOptionsForTotal(params);
+    const options = GetFindOptions(params);
 
     try {
-      articles = await models.Article.findAll(options);
+      articles = await this.models.Article.findAll(options);
     }
     catch(e) {
       console.log('Error getting articles list in DbProvider: ', e);
