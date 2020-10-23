@@ -1,4 +1,5 @@
 const models = require('../../model');
+const { Article, Product } = require('../../model');
 const sequelize = require('./db');
 const { Sequelize } = require('sequelize');
 const { GetFindOptions } = require('../optionsBuilder');
@@ -7,11 +8,20 @@ module.exports = class DbProvider {
   constructor() {
     this.models = models;
     this.sequelize = sequelize;
-    this.sequelize.sync({force: true});
+    this.sequelize.sync();
   }
 
-  CreateArticle = async (ProductId, title, content) => {
-    
+  CreateArticle = async (article) => {
+    let res;
+    try {
+      res = await Article.сreate(article);
+    } catch (e) {
+      res = {
+        error: true,
+        reason: e
+      }
+    }
+    return res;
   }
 
   GetAllArticles = async (query) => {

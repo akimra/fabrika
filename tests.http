@@ -4,3 +4,11 @@ GET http://localhost:3000/products
 GET http://localhost:3000/articles
 ###Получить все статьи с параметрами выборки
 GET http://localhost:3000/articles/?filter=id&filter_from=0&filter_to=3&sort_by=title&sort_dir=DESC
+###Создать статью
+POST http://localhost:3000/articles
+
+{
+  "title": "CustomTitle",
+  "content": "lorem ipsum lorem ipsum",
+  "ProductId": null
+}
