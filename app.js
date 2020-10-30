@@ -32,4 +32,8 @@ app.use(morgan('common', {
 app.use('/products', productsRouter);
 app.use('/articles', articlesRouter);
 
-app.listen(port, () => console.log(`server is running on ${port}`));
+sequelize.sync()
+.then(() => {
+  app.listen(port, () => console.log(`server is running on ${port}`));
+});
+
