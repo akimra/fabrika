@@ -32,7 +32,7 @@ const DbProvider = {
       sort_dir: "asc",
     }
     // Перезаписываем дефолтные параметры выборки (при наличии кастомных в запросе)
-    const params = Object.assign(defaultOptions, query, {include: Product});
+    const params = Object.assign(defaultOptions, query);
 
     let options = GetFindOptions(params);
 
@@ -96,9 +96,86 @@ const DbProvider = {
     } finally {
       return {error: false};
     }
+  },
+
+  // создание продукта
+  CreateProduct: async (article) => {
+    let res;
+    try {
+      res = await models.Product.create(article);
+    } catch (e) {
+      res = {
+        error: true,
+        reason: e.message
+      }
+    }
+    return res;
+  },
+
+  //получение продуктов
+  GetProducts: async (query) => {
+    let products;
+    const { Product } = models;
+    const defaultOptions = {
+      sort_by: "createdAt",
+      sort_dir: "asc",
+    }
+    // Перезаписываем дефолтные параметры выборки (при наличии кастомных в запросе)
+    const params = Object.assign(defaultOptions, query);
+
+    let options = GetFindOptions(params);
+
+    try {
+      products = await Product.findAll(options);
+    }
+    catch(e) {
+      console.log('Error getting articles list in DbProvider: ', e);
+      products = {error: true, reason: e.message};
+    }
+
+    return products;
+  },
+
+  //изменение продукта
+  UpdateProduct: async (product) => {
+    const { id, name, description, cost } = product;
+
+    try {
+      const oldProduct = await models.Profuct.findByPk(id);
+
+      if (oldProduct) {
+        if (name) oldProduct.name = name;
+        if (description) oldProduct.description = description;
+        if (cost) oldProduct.cost = cost;
+
+        await oldProduct.save();
+      } else {
+        return {error: true, reason: '404'};
+      }
+    } catch (e) {
+      return {error: true, reason: e.message};
+    } finally {
+      return {error: false};
+    }
+  },
+
+  //удаление продукта
+  DeleteProduct: async (id) => {
+    try {
+      const article = await models.Article.findByPk(id);
+
+      if (article) {
+        await article.destroy();
+        await article.save();
+      } else {
+        return {error: true, reason: '404'};
+      }
+    } catch (e) {
+      return {error: true, reason: e.message};
+    } finally {
+      return {error: false};
+    }
   }
-
-
 }
 
 module.exports = DbProvider;
